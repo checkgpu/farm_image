@@ -53,7 +53,7 @@ sudo umount /mnt
 If you cannot bootstrap a fresh image or its out of scope, you can install the deps to run farm on existing ubuntu based distros.  
 Arch, Fedora, Centos will run farm as well but your on your own in bootstraping.  
 
-Make sure you have atleast ubuntu 20.10, I recommend the daily of 22.04 LTS which will release April 2022.  
+Make sure you have atleast ubuntu 21.04, I recommend the daily of 22.04 LTS which will release April 2022.  
 
 Install Nvidia driver + CUDA (older Ubuntu might not have nvidia-driver-495, try lower version)
 ```
