@@ -48,6 +48,75 @@ sudo chroot /mnt passwd
 sudo umount /mnt
 ```
 
+## Installing ontop of existing Ubuntu
+
+If you cannot bootstrap a fresh image or its out of scope, you can install the deps to run farm on existing ubuntu based distros.  
+Arch, Fedora, Centos will run farm as well but your on your own in bootstraping.  
+
+Make sure you have atleast ubuntu 20.10, I recommend the daily of 22.04 LTS which will release April 2022.  
+
+Install Nvidia driver + CUDA (older Ubuntu might not have nvidia-driver-495, try lower version)
+```
+apt-get install -y --no-install-recommends nvidia-driver-495
+wget https://developer.download.nvidia.com/compute/cuda/11.5.1/local_installers/cuda_11.5.1_495.29.05_linux.run
+sh cuda_11.5.1_495.29.05_linux.run --silent --toolkit --no-drm --no-man-page
+rm cuda_11.5.1_495.29.05_linux.run
+
+#Set your PATH so cuda can be found BE CAREFUL HERE EDIT MANUALLY PREFERED
+# /etc/environment will be wiped if you enter the commands below
+touch /etc/environment
+echo "PATH=\"\$PATH:/usr/local/cuda-11.5/bin\"" > /etc/environment
+echo "CUDA_HOME=\"/usr/local/cuda-11.5\"" >> /etc/environment
+echo "CUDA_PATH=\"/usr/local/cuda-11.5\"" >> /etc/environment
+```
+
+Install podman + the nvidia-container-runtime
+```
+#install podman
+apt-get install -y podman
+
+#install nvidia-container-runtime + setup OCI hook
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | apt-key add -
+mkdir -p /etc/apt/sources.list.d/
+cat <<EOT >> /etc/apt/sources.list.d/nvidia-docker.list
+deb https://nvidia.github.io/libnvidia-container/experimental/ubuntu18.04/\$(ARCH) /
+deb https://nvidia.github.io/nvidia-container-runtime/experimental/ubuntu18.04/\$(ARCH) /
+deb https://nvidia.github.io/nvidia-docker/ubuntu18.04/\$(ARCH) /
+EOT
+
+apt-get update
+apt-get install -y nvidia-container-runtime
+mkdir -p /usr/share/containers/oci/hooks.d
+cat <<EOT >> /usr/share/containers/oci/hooks.d/oci-nvidia-hook.json
+{
+    "version": "1.0.0",
+    "hook": {
+        "path": "/usr/bin/nvidia-container-toolkit",
+        "args": ["nvidia-container-toolkit", "prestart"],
+        "env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        ]
+    },
+    "when": {
+        "always": true,
+        "commands": [".*"]
+    },
+    "stages": ["prestart"]
+}
+EOT
+
+#set no-cgroups for nvidia-container-runtime
+#TODO: remove this stage once cgroupsV2 support is stable (likely the next major release)
+sed -i 's/^#no-cgroups = false/no-cgroups = true/;' /etc/nvidia-container-runtime/config.toml
+
+#allow rootless podman CPU quotas
+mkdir -p /etc/systemd/system/user@.service.d/
+cat <<EOT >> /etc/systemd/system/user@.service.d/delegate.conf
+[Service]
+Delegate=memory pids io cpu cpuset
+EOT
+```
+
 ## Known Issues
 
  - [ ] No network on boot
