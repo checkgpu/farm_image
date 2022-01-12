@@ -40,6 +40,7 @@ cat ~/.ssh/id_rsa.pub >> /mnt/home/user/.ssh/authorized_keys
 
 #Download Zod Farm
 wget -O /mnt/home/user/farm https://github.com/zodtv/farm/releases/download/v0.0.4/farm
+chown user:user /mnt/home/user/farm
 
 #setup root password (optional)
 sudo chroot /mnt passwd
