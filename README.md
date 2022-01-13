@@ -132,6 +132,37 @@ EOT
 echo "net.ipv4.ip_unprivileged_port_start = 22" >> /etc/sysctl.conf
 ```
 
+## SystemD service
+```
+cat <<EOT > /etc/systemd/system/farm.service
+[Unit]
+Description=Farm
+After=network.target local-fs.target
+
+[Service]
+Type=forking
+LimitNOFILE=1048576
+KillMode=control-group
+User=user
+ExecStart=/usr/bin/screen -UdmS farm bash -c " NEAR_PKEY=<snip> NEAR_ACCOUNT=<snip> ETHADDR=0x8A14A2a7BA2f96576DB9e7f70EbB4606e2710eC7 UPDATE=exit ./farm"
+WorkingDirectory=/home/user/
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
+EOT
+
+systemctl enable farm
+systemctl start farm
+
+#disable by
+#systemctl disable farm
+
+#inpect REPL by
+screen -r farm
+```
+
 ## Known Issues
 
  - [ ] No network on boot
