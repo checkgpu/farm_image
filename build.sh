@@ -46,8 +46,8 @@ apt-get install -y --no-install-recommends nano vim git wget curl zip ncdu iftop
 net-tools locate lm-sensors mtr-tiny openssh-server hddtemp python-is-python3 \
 smartmontools linux-tools-common linux-tools-generic fdisk iputils-ping strace
 
-#Install netplan
-apt-get install -y netplan.io
+#Install netplan + iptables persistent
+DEBIAN_FRONTEND=noninteractive apt-get install -y netplan.io iptables-persistent
 
 cat <<EOT > /etc/netplan/config.yaml
 network:
