@@ -45,6 +45,18 @@ chown user:user /mnt/home/user/farm
 #setup root password (optional)
 sudo chroot /mnt passwd
 
+#firewall local network ipv4
+DEBIAN_FRONTEND=noninteractive apt-get install -y iptables-persistent
+cat <<EOT > /etc/iptables/rules.v4
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A OUTPUT -m state --state ESTABLISHED -j ACCEPT
+-A OUTPUT -d 192.168.0.0/16 -j DROP
+COMMIT
+EOT
+
 sudo umount /mnt
 ```
 
