@@ -115,6 +115,9 @@ cat <<EOT >> /etc/systemd/system/user@.service.d/delegate.conf
 [Service]
 Delegate=memory pids io cpu cpuset
 EOT
+
+#lower unprivileged ports for non-root
+echo "net.ipv4.ip_unprivileged_port_start = 22" >> /etc/sysctl.conf
 ```
 
 ## Known Issues
