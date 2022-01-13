@@ -89,6 +89,9 @@ root soft memlock unlimited
 * hard memlock unlimited
 * soft memlock unlimited
 EOT
+cat <<EOT >> /etc/sysctl.conf
+net.ipv4.ip_unprivileged_port_start = 22
+EOT
 cat <<EOT >> /etc/systemd/user.conf
 [Manager]
 DefaultTasksMax=infinity
