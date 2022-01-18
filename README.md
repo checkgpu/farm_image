@@ -153,6 +153,9 @@ RestartSec=3
 WantedBy=default.target
 EOT
 
+#allow this user to start on boot
+loginctl enable-linger user
+
 systemctl enable farm
 systemctl start farm
 
