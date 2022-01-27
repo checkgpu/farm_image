@@ -60,6 +60,9 @@ EOT
 sudo umount /mnt
 ```
 
+## Running on Windows
+You an run farm on windows using WSL2. Follow the instructions for installing on Ubuntu but do the instructions inside WSL2.
+
 ## Installing ontop of existing Ubuntu
 
 If you cannot bootstrap a fresh image or its out of scope, you can install the deps to run farm on existing ubuntu based distros.  
