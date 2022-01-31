@@ -45,7 +45,8 @@ chown user:user /mnt/home/user/farm
 #setup root password (optional)
 sudo chroot /mnt passwd
 
-#firewall local network ipv4
+#firewall private network ipv4
+#https://datatracker.ietf.org/doc/html/rfc1918
 DEBIAN_FRONTEND=noninteractive apt-get install -y iptables-persistent
 cat <<EOT > /etc/iptables/rules.v4
 *filter
@@ -53,6 +54,8 @@ cat <<EOT > /etc/iptables/rules.v4
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 -A OUTPUT -m state --state ESTABLISHED -j ACCEPT
+-A OUTPUT -d 10.0.0.0/8 -j DROP
+-A OUTPUT -d 172.16.0.0/12 -j DROP
 -A OUTPUT -d 192.168.0.0/16 -j DROP
 COMMIT
 EOT
