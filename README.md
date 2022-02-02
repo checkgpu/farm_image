@@ -3,7 +3,7 @@ Disk Image for bootstrapping your farm
 
 ## Versions
  - [ ] Ubuntu 22.04
- - [ ] Kernel 5.13
+ - [ ] Kernel 5.15
  - [ ] NVIDIA Driver 495
  - [ ] CUDA 11.5.1
  - [ ] podman 3.2.1
@@ -72,6 +72,8 @@ If you cannot bootstrap a fresh image or its out of scope, you can install the d
 Arch, Fedora, Centos will run farm as well but your on your own in bootstraping.  
 
 Make sure you have atleast ubuntu 21.04, I recommend the daily of 22.04 LTS which will release April 2022.  
+  
+Make sure your linux kernel is >= 5.11 for rootless support. `uname -a` 
 
 Install Nvidia driver + CUDA (older Ubuntu might not have nvidia-driver-495, try lower version)
 ```
