@@ -5,7 +5,7 @@ Disk Image for bootstrapping your farm
  - [ ] Ubuntu 22.04
  - [ ] Kernel 5.15
  - [ ] NVIDIA Driver 495
- - [ ] CUDA 11.5.1
+ - [ ] CUDA 11.6
  - [ ] podman 3.2.1
  - [ ] zod_farm 0.0.4
 
@@ -77,10 +77,13 @@ Make sure your linux kernel is >= 5.11 for rootless support. `uname -a`
 
 Install Nvidia driver + CUDA (older Ubuntu might not have nvidia-driver-495, try lower version)
 ```
+//Tesla drivers
+//wget https://us.download.nvidia.com/tesla/510.47.03/NVIDIA-Linux-x86_64-510.47.03.run
+//Or upstream repos
 apt-get install -y --no-install-recommends nvidia-driver-495
-wget https://developer.download.nvidia.com/compute/cuda/11.5.1/local_installers/cuda_11.5.1_495.29.05_linux.run
-sh cuda_11.5.1_495.29.05_linux.run --silent --toolkit --no-drm --no-man-page
-rm cuda_11.5.1_495.29.05_linux.run
+wget https://developer.download.nvidia.com/compute/cuda/11.6.0/local_installers/cuda_11.6.0_510.39.01_linux.run
+sh cuda_11.6.0_510.39.01_linux.run --silent --toolkit --no-drm --no-man-page
+rm cuda_11.6.0_510.39.01_linux.run
 
 #Set your PATH so cuda can be found BE CAREFUL HERE EDIT MANUALLY PREFERED
 # /etc/environment will be wiped if you enter the commands below
