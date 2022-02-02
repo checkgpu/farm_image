@@ -79,11 +79,14 @@ Install Nvidia driver + CUDA (older Ubuntu might not have nvidia-driver-495, try
 ```
 //Tesla drivers
 //wget https://us.download.nvidia.com/tesla/510.47.03/NVIDIA-Linux-x86_64-510.47.03.run
+//wget https://developer.download.nvidia.com/compute/cuda/11.6.0/local_installers/cuda_11.6.0_510.39.01_linux.run
+//sh cuda_11.6.0_510.39.01_linux.run --silent --toolkit --no-drm --no-man-page
+//rm cuda_11.6.0_510.39.01_linux.run
 //Or upstream repos
 apt-get install -y --no-install-recommends nvidia-driver-495
-wget https://developer.download.nvidia.com/compute/cuda/11.6.0/local_installers/cuda_11.6.0_510.39.01_linux.run
-sh cuda_11.6.0_510.39.01_linux.run --silent --toolkit --no-drm --no-man-page
-rm cuda_11.6.0_510.39.01_linux.run
+wget https://developer.download.nvidia.com/compute/cuda/11.5.1/local_installers/cuda_11.5.1_495.29.05_linux.run
+sh cuda_11.5.1_495.29.05_linux.run --silent --toolkit --no-drm --no-man-page
+rm cuda_11.5.1_495.29.05_linux.run
 
 #Set your PATH so cuda can be found BE CAREFUL HERE EDIT MANUALLY PREFERED
 # /etc/environment will be wiped if you enter the commands below
