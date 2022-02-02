@@ -6,7 +6,7 @@ Disk Image for bootstrapping your farm
  - [ ] Kernel 5.15
  - [ ] NVIDIA Driver 495
  - [ ] CUDA 11.6
- - [ ] podman 3.2.1
+ - [ ] podman 3.4.4
  - [ ] zod_farm 0.0.4
 
 ## Basic Bootstraping
