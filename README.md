@@ -96,6 +96,43 @@ echo "CUDA_HOME=\"/usr/local/cuda-11.5\"" >> /etc/environment
 echo "CUDA_PATH=\"/usr/local/cuda-11.5\"" >> /etc/environment
 ```
 
+Install IPFS + Setup service (optional but recommended)
+```
+wget -c https://github.com/ipfs/go-ipfs/releases/download/v0.12.0-rc1/go-ipfs_v0.12.0-rc1_linux-amd64.tar.gz -O - | tar -xz --strip-components 1 go-ipfs/ipfs
+./ipfs init --profile server
+
+cat <<EOT > /etc/systemd/system/ipfs.service
+[Unit]
+Description=IPFS
+After=network.target local-fs.target
+
+[Service]
+Type=forking
+LimitNOFILE=1048576
+KillMode=control-group
+User=user
+ExecStart=/usr/bin/screen -UdmS ipfs bash -c "./ipfs daemon"
+WorkingDirectory=/home/user/
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
+EOT
+
+#allow this user to start on boot
+loginctl enable-linger user
+
+systemctl enable ipfs
+systemctl start ipfs
+
+#disable by
+#systemctl disable ipfs
+
+#inpect REPL by
+screen -r ipfs
+```
+
 Install podman + the nvidia-container-runtime
 ```
 #install podman
