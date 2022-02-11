@@ -91,6 +91,7 @@ root soft memlock unlimited
 EOT
 cat <<EOT >> /etc/sysctl.conf
 net.ipv4.ip_unprivileged_port_start = 22
+net.core.rmem_max = 2621440
 EOT
 cat <<EOT >> /etc/systemd/user.conf
 [Manager]
