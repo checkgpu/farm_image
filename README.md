@@ -181,6 +181,8 @@ EOT
 
 #lower unprivileged ports for non-root
 echo "net.ipv4.ip_unprivileged_port_start = 22" >> /etc/sysctl.conf
+#IPFS QUIC allow high bandwidth recv
+echo "net.core.rmem_max = 2621440" >> /etc/sysctl.conf
 ```
 
 ## SystemD service
