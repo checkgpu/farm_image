@@ -99,7 +99,22 @@ echo "CUDA_PATH=\"/usr/local/cuda-11.5\"" >> /etc/environment
 Install IPFS + Setup service (optional but recommended)
 ```
 wget -c https://github.com/ipfs/go-ipfs/releases/download/v0.12.0-rc1/go-ipfs_v0.12.0-rc1_linux-amd64.tar.gz -O - | tar -xz --strip-components 1 go-ipfs/ipfs
+
+#Dedicated/Baremetal server in Datacenter
+#the profile is needed to prevent triggering abuse complaints
+#as the IPFS dameon would portscan the network looking for peers
 ./ipfs init --profile server
+
+#Your at home behind a router or in a vnet in the cloud (where public ip != internal ip)
+./ipfs init
+
+#Enable hole punching to reach nodes behind routers
+#Bump storage from 10GB to 100GB
+./ipfs config Swarm.EnableHolePunching --bool true
+./ipfs config Swarm.RelayClient.Enabled --bool true
+./ipfs config Experimental.AcceleratedDHTClient --bool true
+./ipfs config Ipns.UsePubsub --bool true
+./ipfs config Datastore.StorageMax "100GB"
 
 cat <<EOT > /etc/systemd/system/ipfs.service
 [Unit]
