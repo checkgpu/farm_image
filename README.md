@@ -115,7 +115,8 @@ wget -c https://github.com/ipfs/go-ipfs/releases/download/v0.12.0-rc1/go-ipfs_v0
 ./ipfs config Experimental.AcceleratedDHTClient --bool true
 ./ipfs config Ipns.UsePubsub --bool true
 ./ipfs config Datastore.StorageMax "100GB"
-
+```
+```
 cat <<EOT > /etc/systemd/system/ipfs.service
 [Unit]
 Description=IPFS
