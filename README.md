@@ -98,7 +98,9 @@ echo "CUDA_PATH=\"/usr/local/cuda-11.5\"" >> /etc/environment
 
 Install IPFS + Setup service (optional but recommended)
 ```
-wget -c https://github.com/ipfs/go-ipfs/releases/download/v0.12.0-rc1/go-ipfs_v0.12.0-rc1_linux-amd64.tar.gz -O - | tar -xz --strip-components 1 go-ipfs/ipfs
+wget -c https://github.com/ipfs/go-ipfs/releases/download/v0.12.0/go-ipfs_v0.12.0_linux-amd64.tar.gz -O - | tar -xz --strip-components 1 go-ipfs/ipfs
+#add IPFS to system path (required)
+cp ipfs /usr/local/bin
 
 #Dedicated/Baremetal server in Datacenter
 #the profile is needed to prevent triggering abuse complaints
@@ -127,7 +129,7 @@ Type=forking
 LimitNOFILE=1048576
 KillMode=control-group
 User=user
-ExecStart=/usr/bin/screen -UdmS ipfs bash -c "./ipfs daemon"
+ExecStart=/usr/bin/screen -UdmS ipfs bash -c "GOMAXPROC=8 ./ipfs daemon --enable-gc"
 WorkingDirectory=/home/user/
 Restart=always
 RestartSec=3
